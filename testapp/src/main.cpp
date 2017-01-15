@@ -31,18 +31,21 @@ class TaxCommand : public Command {
            printf("input2: %c\n", input[2]);
 
            if (c == '\n' ) {
-               printf("newline detected\n");
+               printf("newline detected, aborting.\n");
+               break;
            }
            counter++;
            if (counter > 2) {
-               printf("input is too long, aborting now!\n");
+               printf("input is too long, aborting.\n");
            }
         } while (c != '\n' && counter < 2);
 
         // hard cut after 2 digits
         mover[2] = '\0';
         
-        while ((c = getchar()) != '\n' && c != EOF);
+        printf("cleaning stdin buffer\n");
+        if (counter > 1)
+            while ((c = getchar()) != '\n' && c != EOF);
 
 
         for (int i = 0; i < 3; i++) {
