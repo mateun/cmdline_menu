@@ -3,6 +3,7 @@
 #include <menustack.h>
 #include <command.h>
 #include <stdlib.h>
+#include <playerstats_command.h>
 
 class ExitCommand : public Command {
     public:
@@ -48,9 +49,11 @@ class TaxCommand : public Command {
 
         // hard cut after 2 digits
         mover[2] = '\0';
+
         #ifdef TRACE
         printf("cleaning stdin buffer\n");
         #endif
+
         if (counter > 1)
             while ((c = getchar()) != '\n' && c != EOF);
 
@@ -59,7 +62,7 @@ class TaxCommand : public Command {
             printf("c[%d]=%c\n", i, input[i]);
         }
         #endif
-        
+
         int num = strtol(input, NULL, 10);
         if (num < 1 || num > 10) {
             printf("invalid input!\n");
@@ -99,7 +102,6 @@ public:
 };
 
 class BuildSubCommand : public Command {
-
 public:
     BuildSubCommand(std::string name, char key) : Command(name, key) {
 
@@ -116,9 +118,7 @@ public:
     }
 };
 
-
 class BuildCommand : public Command {
-
 public:
     BuildCommand(std::string name, char key) : Command(name, key) {
 
@@ -137,18 +137,22 @@ public:
     }
 };
 
+unsigned int g_score = 10;
+unsigned int g_level = 1;
+
+extern class ShowPlayerStatsCommand;
 
 int main(int argc, char** args) {
-    printf("creating menustack\n");
+    system("cls");
     MenuStack ms;
-
-    printf("creating menu\n");
     Menu m("Main menu", &ms);
     ExitCommand exitCmd("Exit", 'e');
     BuildCommand bc("Build", '1');
     PeopleCommand pc("People", '2');
+    ShowPlayerStatsCommand spsc("Show player stats", '3');
     m.addCommand(&bc);
     m.addCommand(&pc);
+    m.addCommand(&spsc);
     m.addCommand(&exitCmd);
     m.render();
     

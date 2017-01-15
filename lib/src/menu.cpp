@@ -3,13 +3,17 @@
 
 
 void Menu::render() {
-    printf("%s [%p]\n", _name.c_str(), (void*)this);
-    printf("-----------------------------------------\n");
+    //printf("%s [%p]\n", _name.c_str(), (void*)this);
+    printf("\n");
+    Menu::drawHeaderBorder();
+    printf("  %s \n", _name.c_str());
+    Menu::drawSingleLine();
     for each(Command* cmd in _cmdList) {
-        printf("%c ... %s\n", cmd->getKey(), cmd->getName().c_str());
+        printf("  %c ... %s\n", cmd->getKey(), cmd->getName().c_str());
     }
 
-    printf("-----------------------------------------\n");
+    Menu::drawFooterBorder();
+    
     printf("$> ");
     
     char c;
@@ -17,14 +21,17 @@ void Menu::render() {
     // clear the stdin
     while ( getchar() != '\n' )
     ;
-    printf("current c: %c\n", c);
+    //printf("current c: %c\n", c);
     for each (Command* cmd in _cmdList) {
         if (c == cmd->getKey()) {
+            system("cls");
             cmd->execute(*this);
             
         }
     }
+
     
+
     render();
 
 }

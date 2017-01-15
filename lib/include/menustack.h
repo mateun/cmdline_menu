@@ -10,7 +10,7 @@ class CMDLINE_API MenuStack {
 
 public:
     MenuStack() {
-        printf("in ctr. of MenuStack %p\n", (void*) this);
+        //printf("in ctr. of MenuStack %p\n", (void*) this);
     }
     virtual void push(Menu* menu);
     virtual Menu* pop();
