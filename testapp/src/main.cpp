@@ -26,31 +26,40 @@ class TaxCommand : public Command {
            c = fgetc(stdin);
            *mover = c;
            mover++;
+           #ifdef TRACE
            printf("input0: %c\n", input[0]);
            printf("input1: %c\n", input[1]);
            printf("input2: %c\n", input[2]);
+           #endif
 
            if (c == '\n' ) {
+               #ifdef TRACE
                printf("newline detected, aborting.\n");
+               #endif
                break;
            }
            counter++;
            if (counter > 2) {
+               #ifdef TRACE
                printf("input is too long, aborting.\n");
+               #endif
            }
         } while (c != '\n' && counter < 2);
 
         // hard cut after 2 digits
         mover[2] = '\0';
-        
+        #ifdef TRACE
         printf("cleaning stdin buffer\n");
+        #endif
         if (counter > 1)
             while ((c = getchar()) != '\n' && c != EOF);
 
-
+        #ifdef TRACE
         for (int i = 0; i < 3; i++) {
             printf("c[%d]=%c\n", i, input[i]);
         }
+        #endif
+        
         int num = strtol(input, NULL, 10);
         if (num < 1 || num > 10) {
             printf("invalid input!\n");
